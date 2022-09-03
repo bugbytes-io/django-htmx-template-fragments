@@ -2,6 +2,34 @@
 
 {% block content %}
 
-Hello
+<div id="text" style="margin-bottom: 40px;">
+    <h1>The Library of Babel</h1> 
+    {% lorem 2 %}
+</div>
+
+<hr/>
+
+{% block add-book-form %}
+    <div id="add-form-container">
+        <h1>Add Book</h1> 
+        <form hx-post="{% url 'index' %}" hx-target="#add-form-container" hx-swap="outerHTML">
+            {{ form.as_p }}
+
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+{% endblock %}
+
+<hr/>
+
+<h1>Books</h1>
+
+{% block book-list %}
+    <ul hx-trigger="book_added from:body" hx-get="{% url 'book-list' %}" hx-swap="outerHTML">
+        {% for book in books %}
+            <li>{{ book.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
 
 {% endblock %}
